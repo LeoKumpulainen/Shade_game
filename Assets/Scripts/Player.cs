@@ -4,84 +4,101 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Checks")]
+    private bool isFacingRight = true;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private TrailRenderer tr;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Transform wallCheck;
+    [SerializeField] private LayerMask wallLayer;
+
+
     [Header("Movement")]
-    [SerializeField] float speed;
-    private float Move;
+    [SerializeField] private float speed;
+    private float horizontal;
+
 
 
     [Header("Jumping")]
-    [SerializeField] Transform groundCheck;
-    [SerializeField] LayerMask groundLayer;
-    [SerializeField] private float jump;
-    [SerializeField] private int jumpPower;
-    [SerializeField] private float jumpTime;
-    [SerializeField] private float jumpMultiplier;
-    [SerializeField] private float fallMultiplier;
-    private bool isGrounded;
-    private bool isJumping;
-    private float jumpCounter;
-
+    [SerializeField] private float jumpingPower;
 
     [Header("Dashing")]
-    [SerializeField] private float dashSpeed;
-    [SerializeField] private float startDashTime;
-    [SerializeField]private float dashTime;
-    private int directions;
+    [SerializeField] private float dashingPower;
+    [SerializeField] private float dashingtime;
+    [SerializeField] private float dashingCooldown;
+    private bool canDash = true;
+    private bool isDashing;
 
-    
 
     [Header("Wall sliding and Jumping")]
-    [SerializeField] Transform wallCheck;
-    [SerializeField] LayerMask wallLayer;
-    [SerializeField] float wallSlidingSpeed;
-    bool isWallSliding;
+    [SerializeField] private float wallJumpingDuration = 0.4f;
+    [SerializeField] private Vector2 wallJumpingPower = new Vector2(13f, 9f);
+    [SerializeField] private float wallJumpingTime = 0.2f;
+    [SerializeField] private float wallSlidingSpeed = 1f;
+    private bool isWallSliding;
     private bool isWallJumping;
     private float wallJumpingDirection;
-    private float wallJumpingTime = 0.2f;
     private float wallJumpingCounter;
-    private float wallJumpingDuration = 0.4f;
-    private Vector2 wallJumpingPower = new Vector2(25f, 9f);
 
-    Vector2 vecGravity;
 
-    private Rigidbody2D rb;
+
+
 
     void Start()
     {
-        vecGravity = new Vector2 (0, -Physics2D.gravity.y);
 
-        rb = GetComponent<Rigidbody2D>();
 
-        dashTime = startDashTime;
     }
 
     void Update()
     {
-        Dash();
-        flip();
-        Jumping();
+        if (isDashing)
+        {
+            return;
+        }
+
+        horizontal = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded())
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+        }
+
+        if (Input.GetKeyUp(KeyCode.UpArrow) && isGrounded())
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && canDash)
+        {
+            StartCoroutine(Dash());
+        }
+
         WallSlide();
         WallJump();
 
-
-        if (!isWallSliding)
+        if (!isWallJumping)
         {
             flip();
         }
-
-        Move = Input.GetAxis("Horizontal");
-
     }
 
     private void FixedUpdate()
     {
+        if (isDashing)
+        {
+            return;
+        }
+
         if (!isWallJumping)
         {
-            rb.velocity = new Vector2(Move * speed, rb.velocity.y);
+            rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
         }
+
     }
 
-    private bool IsGrounded()
+    private bool isGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
@@ -89,6 +106,19 @@ public class Player : MonoBehaviour
     private bool isWalled()
     {
         return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wallLayer);
+    }
+
+    private void WallSlide()
+    {
+        if (isWalled() && !isGrounded() && horizontal != 0f)
+        {
+            isWallSliding = true;
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+        }
+        else
+        {
+            isWallSliding = false;
+        }
     }
 
     private void WallJump()
@@ -106,14 +136,22 @@ public class Player : MonoBehaviour
             wallJumpingCounter -= Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && wallJumpingCounter > 0f)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && wallJumpingCounter > 0)
         {
             isWallJumping = true;
             rb.velocity = new Vector2(wallJumpingDirection * wallJumpingPower.x, wallJumpingPower.y);
             wallJumpingCounter = 0f;
 
+            if (transform.localScale.x != wallJumpingDirection)
+            {
+                isFacingRight = !isFacingRight;
+                Vector3 localScale = transform.localScale;
+                localScale.x *= -1f;
+                transform.localScale = localScale;
+            }
+
+            Invoke(nameof(StopWallJumping), wallJumpingDuration);
         }
-        Invoke(nameof(StopWallJumping), wallJumpingDuration);   
     }
 
     private void StopWallJumping()
@@ -121,101 +159,38 @@ public class Player : MonoBehaviour
         isWallJumping = false;
     }
 
-    private void WallSlide()
+    private IEnumerator Dash()
     {
-        if (isWalled() && !IsGrounded() && Move != 0f)
-        {
-            isWallSliding = true;
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
-        }
-        else
-        {
-            isWallSliding = false;
-        }
-    }
+        canDash = false;
+        isDashing = true;
 
-    private void Jumping()
-    {
+        float originalGravity = rb.gravityScale;
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && !IsGrounded() == false)
-        {
-            rb.AddForce(new Vector2(rb.velocity.x, jump));
-            isJumping = true;
-            jumpCounter = 0;
-        }
+        rb.gravityScale = 0f;
+        rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+        tr.emitting = true;
 
-        if (rb.velocity.y > 0 && isJumping)
-        {
-            jumpCounter += Time.deltaTime;
-            if (jumpCounter > jumpTime) isJumping = false;
+        yield return new WaitForSeconds(dashingtime);
 
-            float t = jumpCounter / jumpTime;
-            float currentJumpM = jumpMultiplier;
+        tr.emitting = false;
+        rb.gravityScale = originalGravity;
+        isDashing = false;
 
-            if (t > 0.5f)
-            {
-                currentJumpM = jumpMultiplier * (1 - t); 
-            }
+        yield return new WaitForSeconds(dashingCooldown);
 
-            rb.velocity += vecGravity * currentJumpM * Time.deltaTime;
-        }
-
-        if (rb.velocity.y < 0)
-        {
-            rb.velocity -= vecGravity * fallMultiplier * Time.deltaTime;
-        }
-
-        if (Input.GetKeyUp(KeyCode.UpArrow))
-        {
-            isJumping = false;
-        }
-    }
-
-    private void Dash()
-    {
-        if (directions == 0)
-        {
-            if(Input.GetKeyDown(KeyCode.Space))
-            {
-                if(Move < 0)
-                {
-                    directions = 1;
-                }
-                else if (Move > 0)
-                {
-                    directions = 2;
-                }
-            }
-        }
-        else
-        {
-            if(dashTime <= 0)
-            {
-                directions = 0;
-                dashTime = startDashTime;
-                rb.velocity = Vector2.zero;
-            }
-            else
-            {
-                dashTime -= Time.deltaTime;
-
-                if(directions == 1)
-                {
-                    rb.velocity = Vector2.left * dashSpeed;
-                }
-                else if(directions == 2)
-                {
-                    rb.velocity = Vector2.right * dashSpeed;
-                }
-            }
-        }
+        canDash = true;
     }
 
 
     void flip()
     {
-        if (Move < -0.01f) transform.localScale = new Vector3(-0.3f, 0.3f, 0.3f);
-        if (Move > 0.01f) transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
+        {
+            isFacingRight = !isFacingRight;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1f;
+            transform.localScale = localScale;
+        }
     }
 
 }

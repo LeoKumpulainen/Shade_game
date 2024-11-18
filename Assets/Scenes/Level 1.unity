@@ -733,6 +733,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f02f4c7ee969574f89b2a84bb57118a, type: 3}
+--- !u!50 &1779955275 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 7532336098060282660, guid: 1312a4410a231194b8eed02af22ea758, type: 3}
+  m_PrefabInstance: {fileID: 2043255052}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1779955277 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2595235565394938972, guid: 1312a4410a231194b8eed02af22ea758, type: 3}
@@ -823,12 +828,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6200000, guid: 9c69f2e8b9c1e19429a89cacaefc7109, type: 2}
     - target: {fileID: 7572294220942135924, guid: 1312a4410a231194b8eed02af22ea758, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 1779955275}
+    - target: {fileID: 7572294220942135924, guid: 1312a4410a231194b8eed02af22ea758, type: 3}
       propertyPath: jump
       value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 7572294220942135924, guid: 1312a4410a231194b8eed02af22ea758, type: 3}
       propertyPath: speed
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7572294220942135924, guid: 1312a4410a231194b8eed02af22ea758, type: 3}
       propertyPath: dashTime
@@ -858,6 +867,10 @@ PrefabInstance:
       propertyPath: groundCheck
       value: 
       objectReference: {fileID: 1369810767}
+    - target: {fileID: 7572294220942135924, guid: 1312a4410a231194b8eed02af22ea758, type: 3}
+      propertyPath: jumpingPower
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7572294220942135924, guid: 1312a4410a231194b8eed02af22ea758, type: 3}
       propertyPath: startDashTime
       value: 0.2
