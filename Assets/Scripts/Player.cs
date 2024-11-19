@@ -19,7 +19,6 @@ public class Player : MonoBehaviour
     private float horizontal;
 
 
-
     [Header("Jumping")]
     [SerializeField] private float jumpingPower;
 
@@ -42,12 +41,12 @@ public class Player : MonoBehaviour
     private float wallJumpingCounter;
 
 
-
+    Vector2 startPosition;
 
 
     void Start()
     {
-
+        startPosition = transform.position;
 
     }
 
@@ -181,7 +180,10 @@ public class Player : MonoBehaviour
         canDash = true;
     }
 
-
+    public void Die()
+    {
+        transform.position = startPosition;
+    }
     void flip()
     {
         if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
