@@ -76,6 +76,7 @@ public class Player : MonoBehaviour
 
         WallSlide();
         WallJump();
+        Restart();
 
         if (!isWallJumping)
         {
@@ -184,6 +185,15 @@ public class Player : MonoBehaviour
     {
         transform.position = startPosition;
     }
+
+    private void Restart()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Die();
+        }
+    }
+
     void flip()
     {
         if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
