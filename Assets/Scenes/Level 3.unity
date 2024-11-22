@@ -302,7 +302,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fea0d1535b0522245b2325e07d6162e4, type: 3}
---- !u!1001 &524915401
+--- !u!1001 &1125361338
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -310,55 +310,55 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 281575195957732373, guid: b03b9639c62cc524dbac2020d0786290, type: 3}
+    - target: {fileID: 7725493308364104589, guid: 825c44093e9c9c742aee8cb07e354a72, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.012004
+      value: -7.7738404
       objectReference: {fileID: 0}
-    - target: {fileID: 281575195957732373, guid: b03b9639c62cc524dbac2020d0786290, type: 3}
+    - target: {fileID: 7725493308364104589, guid: 825c44093e9c9c742aee8cb07e354a72, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.3341475
+      value: -3.33988
       objectReference: {fileID: 0}
-    - target: {fileID: 281575195957732373, guid: b03b9639c62cc524dbac2020d0786290, type: 3}
+    - target: {fileID: 7725493308364104589, guid: 825c44093e9c9c742aee8cb07e354a72, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
-    - target: {fileID: 281575195957732373, guid: b03b9639c62cc524dbac2020d0786290, type: 3}
+    - target: {fileID: 7725493308364104589, guid: 825c44093e9c9c742aee8cb07e354a72, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 281575195957732373, guid: b03b9639c62cc524dbac2020d0786290, type: 3}
+    - target: {fileID: 7725493308364104589, guid: 825c44093e9c9c742aee8cb07e354a72, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 281575195957732373, guid: b03b9639c62cc524dbac2020d0786290, type: 3}
+    - target: {fileID: 7725493308364104589, guid: 825c44093e9c9c742aee8cb07e354a72, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 281575195957732373, guid: b03b9639c62cc524dbac2020d0786290, type: 3}
+    - target: {fileID: 7725493308364104589, guid: 825c44093e9c9c742aee8cb07e354a72, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 281575195957732373, guid: b03b9639c62cc524dbac2020d0786290, type: 3}
+    - target: {fileID: 7725493308364104589, guid: 825c44093e9c9c742aee8cb07e354a72, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 281575195957732373, guid: b03b9639c62cc524dbac2020d0786290, type: 3}
+    - target: {fileID: 7725493308364104589, guid: 825c44093e9c9c742aee8cb07e354a72, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 281575195957732373, guid: b03b9639c62cc524dbac2020d0786290, type: 3}
+    - target: {fileID: 7725493308364104589, guid: 825c44093e9c9c742aee8cb07e354a72, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2457877580259469939, guid: b03b9639c62cc524dbac2020d0786290, type: 3}
+    - target: {fileID: 7806186332694592046, guid: 825c44093e9c9c742aee8cb07e354a72, type: 3}
       propertyPath: m_Name
-      value: Player 1
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b03b9639c62cc524dbac2020d0786290, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 825c44093e9c9c742aee8cb07e354a72, type: 3}
 --- !u!1 &1392104149
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,4 +459,4 @@ SceneRoots:
   - {fileID: 205044464}
   - {fileID: 440364650}
   - {fileID: 424704872}
-  - {fileID: 524915401}
+  - {fileID: 1125361338}
