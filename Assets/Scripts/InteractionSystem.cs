@@ -16,6 +16,7 @@ public class InteractionSystem : MonoBehaviour
             if(InteractInput())
             {
                 Debug.Log("INTERACT");
+                GameObject.FindWithTag("WallY").transform.position = new Vector2(0f, 20f);
             }
         }
     }
