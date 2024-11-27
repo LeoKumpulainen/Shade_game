@@ -20,6 +20,11 @@ public class SceneController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void Update()
+    {
+        BackToMenu();
+    }
     public void NextLevel()
     {
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
@@ -28,5 +33,13 @@ public class SceneController : MonoBehaviour
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadSceneAsync(sceneName);
+    }
+
+    public void BackToMenu()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadSceneAsync(0);
+        }
     }
 }

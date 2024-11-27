@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
 
 
     [Header("Movement")]
+    [SerializeField] private bool active = true;
     [SerializeField] private float speed;
     private float horizontal;
 
@@ -42,17 +43,25 @@ public class Player : MonoBehaviour
 
 
     Vector2 startPosition;
+    private Collider2D Collider;
 
 
     void Start()
     {
         startPosition = transform.position;
 
+        Collider = GetComponent<Collider2D>();
+
     }
 
     void Update()
     {
         if (isDashing)
+        {
+            return;
+        }
+
+        if (!active)
         {
             return;
         }
@@ -181,9 +190,26 @@ public class Player : MonoBehaviour
         canDash = true;
     }
 
+    private void MiniJump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, jumpingPower / 2);
+    }
+
     public void Die()
     {
+        active = false;
+        Collider.enabled = false;
+        MiniJump();
+        StartCoroutine(Respawn());
+    }
+
+    private IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(1f);
         transform.position = startPosition;
+        active = true;
+        Collider.enabled = true;
+        MiniJump();
     }
 
     private void Restart()
