@@ -50,7 +50,11 @@ public class Player : MonoBehaviour
     {
         startPosition = transform.position;
 
+        rb = GetComponent<Rigidbody2D>();
+
         Collider = GetComponent<Collider2D>();
+
+        Die();
 
     }
 
