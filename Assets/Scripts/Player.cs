@@ -54,7 +54,6 @@ public class Player : MonoBehaviour
 
         Collider = GetComponent<Collider2D>();
 
-        Die();
 
     }
 
