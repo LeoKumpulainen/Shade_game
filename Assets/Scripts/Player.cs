@@ -41,9 +41,11 @@ public class Player : MonoBehaviour
     private float wallJumpingDirection;
     private float wallJumpingCounter;
 
-
     Vector2 startPosition;
     private Collider2D Collider;
+
+    private Renderer playerRenderer;
+    private bool isVisible = true;
 
 
     void Start()
@@ -55,6 +57,16 @@ public class Player : MonoBehaviour
         Collider = GetComponent<Collider2D>();
 
         Die();
+
+        playerRenderer = GetComponent<Renderer>();
+
+        if (playerRenderer == null)
+        {
+            Debug.LogError("No Renderer found on the player object. Make sure the Renderer component is attached.");
+            return;
+        }
+
+        StartCoroutine(HideAndReappear());
     }
 
     void Update()
@@ -232,6 +244,21 @@ public class Player : MonoBehaviour
             localScale.x *= -1f;
             transform.localScale = localScale;
         }
+    }
+
+    IEnumerator HideAndReappear()
+    {
+        SetVisibility(false);
+
+        yield return new WaitForSeconds(1f);
+
+        SetVisibility(true);
+    }
+
+    void SetVisibility(bool visible)
+    {
+        isVisible = visible;
+        playerRenderer.enabled = visible;
     }
 
 }
