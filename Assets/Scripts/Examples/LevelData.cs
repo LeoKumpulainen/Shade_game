@@ -21,4 +21,30 @@ public class LevelData : ScriptableObject {
     public string levelDisplayName;
 
     public LevelType levelType;
+
+
+    // Calling this list will automatically load all assets from Resource-folders that are type
+    // LevelData, if they haven't been loaded yet.
+    private static List<LevelData> LevelDataList {
+        get {
+            if (s_levelDataList == null || s_levelDataList.Count <= 0) {
+                s_levelDataList = Resources.LoadAll<LevelData>();
+            }
+
+            return s_levelDataList;
+        }
+    }
+    private static List<LevelData> s_levelDataList;
+
+
+    // Returns all level datas
+    public static List<LevelData> GetAll() {
+        return LevelDataList;
+    }
+
+
+    // Returns all level datas with given level type
+    public static List<LevelData> GetAll(LevelType levelType) {
+        return GetAll().FindAll(x => x.levelType == levelType);
+    }
 }
