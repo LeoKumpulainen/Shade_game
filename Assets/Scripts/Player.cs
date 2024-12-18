@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform wallCheck;
     [SerializeField] private LayerMask wallLayer;
+    public Animator animator;
 
 
     [Header("Movement")]
@@ -98,6 +101,8 @@ public class Player : MonoBehaviour
             StartCoroutine(Dash());
         }
 
+        animator.SetFloat("SpeedAnim", Mathf.Abs(horizontal));
+
         WallSlide();
         WallJump();
         Restart();
@@ -122,11 +127,10 @@ public class Player : MonoBehaviour
 
     }
 
-    private bool isGrounded()
+    public bool isGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
-
     private bool isWalled()
     {
         return Physics2D.OverlapCircle(wallCheck.position, 0.2f, wallLayer);
