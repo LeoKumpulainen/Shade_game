@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -58,8 +58,6 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         Collider = GetComponent<Collider2D>();
-
-        Die();
 
         playerRenderer = GetComponent<Renderer>();
 
@@ -226,10 +224,8 @@ public class Player : MonoBehaviour
     private IEnumerator Respawn()
     {
         yield return new WaitForSeconds(1f);
-        transform.position = startPosition;
-        active = true;
-        Collider.enabled = true;
-        MiniJump();
+        DeathCounter.Instance.deathCount++;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void Restart()
@@ -255,7 +251,7 @@ public class Player : MonoBehaviour
     {
         SetVisibility(false);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.1f);
 
         SetVisibility(true);
     }
